@@ -1,0 +1,21 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "kickassembler.startup": "src/memory_map.asm",
+        "kickassembler.assemblerLibraryPaths": [
+            // kickassembler plugin doesn't support relative libdir paths
+            // this will be fixed in 0.5.6
+            // for now, change this directory to match your filesystem
+            "D:/Code/spacelib2/include/spacelib2"
+        ]
+    },
+    "extensions": {
+        "recommendations": [
+            "paulhocker.kick-assembler-vscode-ext"
+        ]
+    }
+}
