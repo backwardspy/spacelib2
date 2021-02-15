@@ -107,4 +107,52 @@
         // switch to binary mode
         cld
     }
+
+    .macro @sl_math_min(value1_addr, value2) {
+        lda #value2
+        cmp value1_addr
+        bcs end         // carry set = no borrow = value2 >= value1
+        sta value1_addr // carry clear = borrow = value2 < value1
+    end:
+    }
+
+    .macro @sl_math_max(value1_addr, value2) {
+        lda #value2
+        cmp value1_addr
+        bcc end         // carry clear = borrow = value2 < value1
+        sta value1_addr // carry set = no borrow = value >= value1
+    end:
+    }
+
+    .macro @sl_math_min16(value1_addr, value2) {
+        // compare high bytes
+        lda value1_addr + 1
+        cmp #>value2
+        bmi end         // hi(value2) > hi(value1), value1 must be lower
+
+        mov #>value2 : value1_addr + 1
+
+        sl_math_min(value1_addr, <value2)
+    end:
+    }
+
+    .macro @sl_math_max16(value1_addr, value2) {
+        lda #>value2
+        cmp value1_addr + 1
+        bcc end         // hi(value2) < hi(value1), value1 must be greater
+        sta value1_addr + 1
+
+        sl_math_max(value1_addr, <value2)
+    end:
+    }
+
+    .macro @sl_math_clamp(value1_addr, minimum, maximum) {
+        @sl_math_min(value1_addr, maximum)
+        @sl_math_max(value1_addr, minimum)
+    }
+
+    .macro @sl_math_clamp16(value1_addr, minimum, maximum) {
+        @sl_math_min16(value1_addr, maximum)
+        @sl_math_max16(value1_addr, minimum)
+    }
 }

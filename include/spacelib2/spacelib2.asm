@@ -6,5 +6,6 @@
 #import "lib/bank.asm"
 #import "lib/graphics.asm"
 #import "lib/sprites.asm"
+#import "lib/input.asm"
 
 #import "lib/debug.asm"

@@ -61,10 +61,8 @@ BasicUpstart(entry_point)
 #import "strings.asm"
 
 * = $2000 "Sprites"
-.const sprites_file = LoadBinary("../assets/sprites.bin")
 .label sprites_data_pointer = * / 64
-sprites_data:
-    .fill sprites_file.getSize(), sprites_file.get(i)
+.import binary "../res/sprites.bin"
 
 /*
 $A000-$BFFF Free machine language program storage area (when switched-out with ROM)
@@ -120,6 +118,11 @@ $D000-$DDFF I/O Ports
 .label colour_base = $d800
 
 /* CIA-1 registers */
+.label data_port_a = $dc00
+.label data_port_b = $dc01
+.label data_direction_port_a = $dc02
+.label data_direction_port_b = $dc03
+.label timer_word = $dc04 // & $dc05
 .label irq_control_status = $dc0d
 
 /* CIA-2 registers */
